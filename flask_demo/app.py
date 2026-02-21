@@ -7,6 +7,7 @@ Locally you can also use flask_demo/.env file (loaded by python-dotenv).
 """
 
 import os
+import hashlib
 from functools import wraps
 
 from flask import (Flask, render_template, send_from_directory,
@@ -18,10 +19,17 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
 app = Flask(__name__)
 
-# Secret key for session signing – prefer env var, fallback to random bytes
-app.secret_key = os.environ.get('SECRET_KEY', os.urandom(32))
+# ── SECRET KEY ────────────────────────────────────────────────────────────────
+# IMPORTANT: os.urandom() would give a DIFFERENT key to every gunicorn worker,
+# invalidating sessions between requests. We derive a stable key from
+# APP_PASSWORD so all workers share the same key.
+_raw_pwd = os.environ.get('APP_PASSWORD', 'diana-fallback-key')
+app.secret_key = os.environ.get(
+    'SECRET_KEY',
+    hashlib.sha256(f"diana-session-{_raw_pwd}".encode()).hexdigest()
+)
 
-# App password – MUST be set via environment variable in production
+# App password
 APP_PASSWORD = os.environ.get('APP_PASSWORD', '')
 
 
