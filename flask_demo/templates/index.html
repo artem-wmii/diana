@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧬 Dane-Diana – Selekcja Genów: Wyniki Eksperymentów</title>
+    <meta name="description"
+        content="Wyniki eksperymentów selekcji genów na zbiorach ascendens_baseline, rectum_baseline, rectum_relapse – do 30 najlepszych genów.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div id="pb"></div>
+
+    <!-- ══════════ HERO ══════════ -->
+    <header class="hero">
+        <span class="hero-icon">🧬</span>
+        <h1>Dane-Diana – Selekcja Genów</h1>
+        <p class="hero-sub">
+            Wyniki eksperymentów selekcji do <strong>30 najlepszych genów</strong>
+            z użyciem <strong>16 metod</strong> rankingowania na 3 zbiorach danych genomicznych.
+            <br>Czerwona linia referencyjna = klasyfikacja ze <strong>wszystkimi genami</strong>.
+        </p>
+        <div class="hero-chips">
+            <span class="chip chip-bc">🔵 ascendens_baseline (n=73)</span>
+            <span class="chip chip-rb">🟣 rectum_baseline (n=67)</span>
+            <span class="chip chip-rr">🟠 rectum_relapse (n=36)</span>
+            <span class="chip chip-dna">🧬 101 genów / zbiór</span>
+        </div>
+    </header>
+
+    <!-- ══════════ STATS ══════════ -->
+    <div class="stats">
+        <div class="sc">
+            <div class="sc-icon">🗂️</div>
+            <div class="sc-val">3</div>
+            <div class="sc-lbl">Zbiory danych</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">🧬</div>
+            <div class="sc-val">101</div>
+            <div class="sc-lbl">Genów per zbiór</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">🔬</div>
+            <div class="sc-val">30</div>
+            <div class="sc-lbl">Max wybranych genów</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">⚙️</div>
+            <div class="sc-val">16</div>
+            <div class="sc-lbl">Metody selekcji</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">🤖</div>
+            <div class="sc-val">6</div>
+            <div class="sc-lbl">Klasyfikatory</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">🏆</div>
+            <div class="sc-val">MFM</div>
+            <div class="sc-lbl">Najlepsza grupa</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">📊</div>
+            <div class="sc-val">LOO/5F</div>
+            <div class="sc-lbl">Walidacja krzyżowa</div>
+        </div>
+        <div class="sc">
+            <div class="sc-icon">📁</div>
+            <div class="sc-val">27</div>
+            <div class="sc-lbl">Plików wynikowych</div>
+        </div>
+    </div>
+
+    <!-- ══════════ ALERT ══════════ -->
+    <div class="alert">
+        <div class="alert-box">
+            <strong>ℹ️ Jak czytać wykresy:</strong>
+            Czerwona przerywana linia (—) oznacza dokładność klasyfikatora na <strong>wszystkich genach</strong>
+            (baseline).
+            Jeżeli krzywa metody przekracza tę linię, selekcja genów <strong>poprawia</strong> wynik.
+            Dla małych zbiorów (&lt;30 próbek) stosowana jest walidacja LOO (Leave-One-Out).
+        </div>
+    </div>
+
+    <!-- ══════════ NAV ══════════ -->
+    <nav class="nav-wrap">
+        <div class="nav-inner">
+            <div class="nav-tabs">
+                <button class="ntab active" onclick="switchTab('overview')">📋 Podsumowanie</button>
+                <button class="ntab" onclick="switchTab('ranking')">🏆 Ranking Metod</button>
+                <button class="ntab" onclick="switchTab('charts')">📈 Wykresy</button>
+                <button class="ntab" onclick="switchTab('topgenes')">🧬 Top Geny</button>
+                <button class="ntab" onclick="switchTab('downloads')">💾 Pobierz dane</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ══════════ TAB: OVERVIEW ══════════ -->
+        <section class="section active" id="tab-overview">
+            <h2 class="sec-title"><span>📋</span> Podsumowanie per Zbiór Danych</h2>
+
+            <div class="ds-grid">
+                <!-- ASCENDENS BASELINE -->
+                <div class="ds-card">
+                    <div class="ds-card-stripe" style="background: linear-gradient(90deg, #3b82f6, #06b6d4);"></div>
+                    <div class="ds-card-name" style="color: #60a5fa;">🔵 ascendens_baseline</div>
+                    <div class="ds-meta">
+                        <div class="ds-pill">Próbki: <strong>73</strong></div>
+                        <div class="ds-pill">Geny: <strong>101</strong></div>
+                        <div class="ds-pill">Klasy: <strong>2</strong></div>
+                        <div class="ds-pill">CV: <strong>5-fold</strong></div>
+                    </div>
+                    <div class="ds-row"><span class="ds-row-label">Baseline (wszystkie geny, śr.)</span><span
+                            class="ds-row-val">53.19%</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Najlepsza metoda</span><span class="ds-row-val"><span
+                                class="tag-win">MFM1</span></span></div>
+                    <div class="ds-row"><span class="ds-row-label">Dok. najlepszej metody (śr.)</span><span
+                            class="ds-row-val tag-up">55.00%</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Zmiana vs baseline</span><span
+                            class="ds-row-val tag-up">+1.81 pp</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Genów do osiągnięcia baseline (kNN-3)</span><span
+                            class="ds-row-val highlight">3 genów</span></div>
+                </div>
+
+                <!-- RECTUM BASELINE -->
+                <div class="ds-card">
+                    <div class="ds-card-stripe" style="background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+                    <div class="ds-card-name" style="color: #c084fc;">🟣 rectum_baseline</div>
+                    <div class="ds-meta">
+                        <div class="ds-pill">Próbki: <strong>67</strong></div>
+                        <div class="ds-pill">Geny: <strong>101</strong></div>
+                        <div class="ds-pill">Klasy: <strong>2</strong></div>
+                        <div class="ds-pill">CV: <strong>5-fold</strong></div>
+                    </div>
+                    <div class="ds-row"><span class="ds-row-label">Baseline (wszystkie geny, śr.)</span><span
+                            class="ds-row-val">50.04%</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Najlepsza metoda</span><span class="ds-row-val"><span
+                                class="tag-win">MSF1</span></span></div>
+                    <div class="ds-row"><span class="ds-row-label">Dok. najlepszej metody (śr.)</span><span
+                            class="ds-row-val tag-up">55.94%</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Zmiana vs baseline</span><span
+                            class="ds-row-val tag-up">+5.90 pp</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Genów do osiągnięcia baseline (kNN-3)</span><span
+                            class="ds-row-val highlight">1 gen</span></div>
+                </div>
+
+                <!-- RECTUM RELAPSE -->
+                <div class="ds-card">
+                    <div class="ds-card-stripe" style="background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                    <div class="ds-card-name" style="color: #fbbf24;">🟠 rectum_relapse</div>
+                    <div class="ds-meta">
+                        <div class="ds-pill">Próbki: <strong>36</strong></div>
+                        <div class="ds-pill">Geny: <strong>101</strong></div>
+                        <div class="ds-pill">Klasy: <strong>1</strong></div>
+                        <div class="ds-pill">CV: <strong>LOO</strong></div>
+                    </div>
+                    <div class="ds-row"><span class="ds-row-label">Baseline (wszystkie geny, śr.)</span><span
+                            class="ds-row-val">83.33%</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Najlepsza metoda</span><span class="ds-row-val"><span
+                                class="tag-win">FE2</span></span></div>
+                    <div class="ds-row"><span class="ds-row-label">Dok. najlepszej metody (śr.)</span><span
+                            class="ds-row-val tag-eq">83.33%</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Zmiana vs baseline</span><span
+                            class="ds-row-val tag-eq">±0.00 pp</span></div>
+                    <div class="ds-row"><span class="ds-row-label">Uwaga</span><span class="ds-row-val warn-txt">1 klasa
+                            → trywialny</span></div>
+                </div>
+            </div>
+
+            <!-- INTERPRETACJA -->
+            <div class="interp-box">
+                <h3 class="interp-title">📊 Interpretacja Wyników</h3>
+                <div class="interp-grid">
+                    <div class="interp-item">
+                        <p><strong>Baseline niski (~50%)</strong> dla ascendens i rectum wskazuje na trudne problemy
+                            klasyfikacyjne z małą liczbą próbek (n=67…73) i wysoką
+                            wymiarowością cech (101 genów).</p>
+                    </div>
+                    <div class="interp-item">
+                        <p><strong>Selekcja wyraźnie pomaga</strong> – już 1–3 geny wystarczą, by dorównać lub
+                            przewyższyć klasyfikację ze wszystkimi genami (redukcja klątwy wymiarowości).</p>
+                    </div>
+                    <div class="interp-item">
+                        <p><strong>Grupy MFM i MSF</strong> dominują w rankingu zbiorczym. Metody oparte na
+                            statystyce Fishera i ANOVA najlepiej radzą sobie z danymi genomicznymi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════ TAB: RANKING ══════════ -->
+        <section class="section" id="tab-ranking">
+            <h2 class="sec-title"><span>🏆</span> Zbiorczy Ranking Metod (po 3 zbiorach)</h2>
+
+            <div class="winner-box">
+                <div style="position:absolute;top:0;left:0;right:0;height:2px;
+                  background:linear-gradient(90deg,#10b981,#06b6d4);"></div>
+                <div class="winner-inner">
+                    <span class="winner-trophy">🥇</span>
+                    <div>
+                        <div class="winner-name">MFM1 &amp; MFM2 &amp; MFM4</div>
+                        <div class="winner-desc">Fisher one-vs-rest – najwyższa średnia zbiorczych dokładności na danych
+                            Diany</div>
+                    </div>
+                    <div class="winner-acc" style="color:#10b981;">64.74%</div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#3b82f6"></div> FE – pary obiektów
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#10b981"></div> MFM – wieloklasowy Fisher
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#f59e0b"></div> MSF – F-statystyki ANOVA
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#a855f7"></div> SAM – korekcja centroidowa
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="rtable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Metoda</th>
+                            <th>Grupa</th>
+                            <th>Zbiorczy wynik (śr. po 3 DS)</th>
+                            <th>Wizualizacja</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankTblBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ══════════ TAB: CHARTS ══════════ -->
+        <section class="section" id="tab-charts">
+            <h2 class="sec-title"><span>📈</span> Wykresy Eksperymentów</h2>
+
+            <div class="ds-switch">
+                <button class="ds-btn active" onclick="switchDS('ascendens')">🔵 ascendens_baseline</button>
+                <button class="ds-btn" onclick="switchDS('rectum_b')">🟣 rectum_baseline</button>
+                <button class="ds-btn" onclick="switchDS('rectum_r')">🟠 rectum_relapse</button>
+            </div>
+
+            <div class="legend">
+                <div class="leg-item">
+                    <svg width="28" height="10">
+                        <line x1="0" y1="5" x2="28" y2="5" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="5,3" />
+                    </svg>
+                    Baseline – wszystkie geny (referencyjna)
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#3b82f6"></div> FE
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#10b981"></div> MFM
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#f59e0b"></div> MSF
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#a855f7"></div> SAM
+                </div>
+                <div class="leg-item">
+                    <div class="leg-dot" style="background:#64748b"></div> RANDOM
+                </div>
+            </div>
+
+            <!-- ASCENDENS -->
+            <div class="ds-content active" id="dsc-ascendens">
+                <div class="charts-grid">
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – kNN-3
+                            <span class="hdr-note">— — = wszystkie geny</span>
+                        </div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_ascendens_baseline_kNN-3.png') }}"
+                            alt="acc vs genes ascendens kNN-3" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – SVM</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_ascendens_baseline_SVM.png') }}"
+                            alt="acc vs genes ascendens SVM" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – Naïve Bayes</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_ascendens_baseline_NaiveBayes.png') }}"
+                            alt="acc vs genes ascendens NaiveBayes" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📊 Porównanie grup metod</div>
+                        <img src="{{ url_for('static', filename='images/group_comparison_ascendens_baseline.png') }}"
+                            alt="group comparison ascendens" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">🏆 Ranking metod</div>
+                        <img src="{{ url_for('static', filename='images/method_ranking_ascendens_baseline.png') }}"
+                            alt="method ranking ascendens" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">🔥 Heatmapa top-20 genów</div>
+                        <img src="{{ url_for('static', filename='images/heatmap_top_genes_ascendens_baseline.png') }}"
+                            alt="heatmap top genes ascendens" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECTUM BASELINE -->
+            <div class="ds-content" id="dsc-rectum_b">
+                <div class="charts-grid">
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – kNN-3</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_rectum_baseline_kNN-3.png') }}"
+                            alt="acc vs genes rectum baseline kNN-3" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – SVM</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_rectum_baseline_SVM.png') }}"
+                            alt="acc vs genes rectum baseline SVM" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – Naïve Bayes</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_rectum_baseline_NaiveBayes.png') }}"
+                            alt="acc vs genes rectum baseline NaiveBayes" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📊 Porównanie grup metod</div>
+                        <img src="{{ url_for('static', filename='images/group_comparison_rectum_baseline.png') }}"
+                            alt="group comparison rectum baseline" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">🏆 Ranking metod</div>
+                        <img src="{{ url_for('static', filename='images/method_ranking_rectum_baseline.png') }}"
+                            alt="method ranking rectum baseline" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">🔥 Heatmapa top-20 genów</div>
+                        <img src="{{ url_for('static', filename='images/heatmap_top_genes_rectum_baseline.png') }}"
+                            alt="heatmap top genes rectum baseline" loading="lazy">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECTUM RELAPSE -->
+            <div class="ds-content" id="dsc-rectum_r">
+                <div class="alert-box warn" style="margin-bottom:20px;">
+                    ⚠️ Zbiór <strong>rectum_relapse</strong> ma tylko <strong>1 klasę</strong> w zmiennej decyzyjnej –
+                    klasyfikacja jest trywialna. Wyniki przedstawione dla kompletności zestawu.
+                </div>
+                <div class="charts-grid">
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – kNN-3</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_rectum_relapse_kNN-3.png') }}"
+                            alt="acc vs genes rectum relapse kNN-3" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📉 Dokładność vs geny – SVM</div>
+                        <img src="{{ url_for('static', filename='images/acc_vs_genes_rectum_relapse_SVM.png') }}"
+                            alt="acc vs genes rectum relapse SVM" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">📊 Porównanie grup metod</div>
+                        <img src="{{ url_for('static', filename='images/group_comparison_rectum_relapse.png') }}"
+                            alt="group comparison rectum relapse" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">🏆 Ranking metod</div>
+                        <img src="{{ url_for('static', filename='images/method_ranking_rectum_relapse.png') }}"
+                            alt="method ranking rectum relapse" loading="lazy">
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-box-hdr">🔥 Heatmapa top-20 genów</div>
+                        <img src="{{ url_for('static', filename='images/heatmap_top_genes_rectum_relapse.png') }}"
+                            alt="heatmap top genes rectum relapse" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════ TAB: TOP GENES ══════════ -->
+        <section class="section" id="tab-topgenes">
+            <h2 class="sec-title"><span>🧬</span> Top-10 Genów – Consensus Ranking</h2>
+            <p class="sec-desc">Geny najczęściej pojawiające się w pierwszej dziesiątce różnych metod selekcji.</p>
+
+            <div class="ds-switch" id="genesDsSwitch">
+                <button class="ds-btn active" onclick="switchGenesDS('ascendens_baseline')">🔵
+                    ascendens_baseline</button>
+                <button class="ds-btn" onclick="switchGenesDS('rectum_baseline')">🟣 rectum_baseline</button>
+                <button class="ds-btn" onclick="switchGenesDS('rectum_relapse')">🟠 rectum_relapse</button>
+            </div>
+            <div id="genesContent" style="margin-top:20px;"></div>
+        </section>
+
+        <!-- ══════════ TAB: DOWNLOADS ══════════ -->
+        <section class="section" id="tab-downloads">
+            <h2 class="sec-title"><span>💾</span> Pobierz Dane (CSV)</h2>
+            <p class="sec-desc">Wszystkie pliki wynikowe eksperymentów dostępne do pobrania w formacie CSV.</p>
+            <div class="dl-grid" id="dlGrid"></div>
+        </section>
+
+    </div><!-- /container -->
+
+    <footer>
+        Raport wygenerowany automatycznie &nbsp;·&nbsp; Dane-Diana – Selekcja Genów &nbsp;·&nbsp; Python Pipeline 2026
+        &nbsp;·&nbsp; <a href="https://github.com/artem-wmii/diana" style="color:var(--a1);">GitHub</a>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>
