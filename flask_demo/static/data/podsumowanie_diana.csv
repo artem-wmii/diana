@@ -1,0 +1,4 @@
+﻿dataset,n_samples,n_genes_total,n_classes,baseline_acc_mean,best_method,best_method_acc_mean,n_genes_for_baseline_knn3,improvement
+ascendens_baseline,73,101,2,0.5319,MFM1,0.55,3,0.018
+rectum_baseline,67,101,2,0.5004,MSF1,0.5594,1,0.059
+rectum_relapse,36,101,1,0.8333,FE2,0.8333,1,0.0

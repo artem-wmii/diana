@@ -63,9 +63,9 @@ tmp/
 htmlcov/
 .tox/
 
-# Data files NOT tracked (large raw data)
+# Raw input data (large, not part of the app)
 *.arff
-data/
+# NOTE: Do NOT add data/ here – flask_demo/static/data/ must be tracked!
 
 # Git
 *.orig
